@@ -1,14 +1,18 @@
 import { IAuthenticateGeneric, ICredentialType, INodeProperties } from 'n8n-workflow';
 
 export class PresentonApi implements ICredentialType {
-  name = 'PresentonApi';
+  name = 'presentonApi';
   displayName = 'Presenton API';
+  documentationUrl = 'https://presenton.ai/docs/api-reference';
   properties: INodeProperties[] = [
     {
       displayName: 'API Key',
       name: 'apiKey',
       type: 'string',
       default: '',
+      typeOptions:{
+        password: true,
+      },
       description: 'Your API key for Presenton',
     },
     {

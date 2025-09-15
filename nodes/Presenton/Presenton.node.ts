@@ -14,22 +14,24 @@ import * as GenericFunctions from './GenericFunctions';
 
 
 
+
 export class Presenton implements INodeType {
     description: INodeTypeDescription ={
          displayName: 'Presenton',
-    name: 'Presenton',
+    name: 'presenton',
     icon: 'file:presenton.svg',
     group: ['transform'],
+    
     version: 1,
-    description: 'Interact with PresentOn API (async generation + status checking)',
+    description: 'Interact with presenton API (async generation + status checking)',
     defaults: {
-      name: 'Presenton',
+      name: 'presenton',
     },
     inputs: [NodeConnectionType.Main],
     outputs: [NodeConnectionType.Main],
     credentials: [
       {
-        name: 'PresentonApi',
+        name: 'presentonApi',
         required: true,
       },
     ],
@@ -39,40 +41,43 @@ export class Presenton implements INodeType {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
+        noDataExpression: true,
+        
         options: [
           {
             name: 'Generate Presentation (Async)',
             value: 'generateAsync',
-            description: 'Initiate presentation generation',
+            description: 'Initiate presentation generation asynchronously',
+            action: 'Initiate presentation generation',
           },
           {
             name: 'Check Presentation Status',
             value: 'checkStatus',
-            description: 'Poll/check until presentation is done',
+            description: 'Poll or check until presentation is done',
+            action: 'Poll or check until presentation is done',
           },
           {
             name: 'Upload File',
             value: 'uploadFile',
-            description: 'Upload a file to PresentOn to reference later',
+            description: 'Upload a file to Presenton to reference later',
+            action: 'Upload a file to presenton to reference later',
           },
         ],
         default: 'generateAsync',
-        description: 'What you want to do',
+        description: 'What you want to do with Presenton',
         required: true
       },
-      
       {
         displayName: 'Content',
         name: 'content',
         type: 'string',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: '',
-        description: 'Main content to generate presentation from',
+        description: 'Main content to generate presentation from (required for generateAsync)',
       },
       {
         displayName: 'Slides Markdown',
@@ -81,110 +86,103 @@ export class Presenton implements INodeType {
         typeOptions: {
           multipleValues: true,
         },
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: [],
-        description: 'Optional list of slides in markdown format',
+        description: 'Optional list of slides in markdown format (required for generateAsync)',
       },
       {
         displayName: 'Instructions',
         name: 'instructions',
         type: 'string',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: '',
-        description: 'Additional instructions',
+        description: 'Additional instructions (required for generateAsync)',
       },
       {
         displayName: 'Tone',
         name: 'tone',
         type: 'options',
         options:[
-          { name: 'default', value: 'default' },
-          { name: 'causal', value: 'causal' },
-          { name: 'professional', value: 'professional' },
-          { name: 'funny', value: 'funny' },
-          { name: 'educational', value: 'educational' },
-          { name: 'sale pitch', value: 'sale_pitch' },
+          { name: 'Causal', value: 'causal' },
+          { name: 'Default', value: 'default' },
+          { name: 'Educational', value: 'educational' },
+          { name: 'Funny', value: 'funny' },
+          { name: 'Professional', value: 'professional' },
+          { name: 'Sale Pitch', value: 'sale_pitch' },
         ],
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: 'default',
-        description: 'Writing tone, e.g. default, professional, friendly',
+        description: 'Writing tone, e.g. default, professional, friendly (required for generateAsync)',
       },
       {
         displayName: 'Verbosity',
         name: 'verbosity',
         type: 'options',
         options:[
-          { name: 'concise', value: 'concise' },
-          { name: 'standard', value: 'standard' },
-          { name: 'text-heavy', value: 'text-heavy' },
+          { name: 'Concise', value: 'concise' },
+          { name: 'Standard', value: 'standard' },
+          { name: 'Text Heavy', value: 'text-heavy' },
         ],
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: 'standard',
-        description: 'Verbosity level, e.g. standard, concise, verbose',
+        description: 'Verbosity level, e.g. standard, concise, verbose (required for generateAsync)',
       },
       {
         displayName: 'Enable Web Search',
         name: 'web_search',
         type: 'boolean',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: false,
-        description: 'Allow web search during generation',
+        description: 'Whether to allow web search during generation (required for generateAsync)',
       },
       {
         displayName: 'Image Type',
         name: 'image_type',
         type: 'options',
         options:[
-          { name: 'stock', value: 'stock' },
-          { name: 'ai-generated', value: 'ai-generated' },
+          { name: 'AI Generated', value: 'ai-generated' },
+          { name: 'Stock', value: 'stock' },
          
         ],
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: 'stock',
-        description: 'Image type to use (stock, none, etc.)',
+        description: 'Image type to use (stock, none, etc.) (required for generateAsync)',
       },
       {
         displayName: 'Theme',
         name: 'theme',
         type: 'string',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: '',
-        description: 'Theme name',
+        description: 'Theme name (required for generateAsync) (optional)',
       },
       {
         displayName:'No of Slides',
@@ -197,72 +195,67 @@ export class Presenton implements INodeType {
           },
         },
         default: 5,
-        description: 'Number of slides to generate',
+        description: 'Number of slides to generate (required for generateAsync)',
       },
       {
         displayName: 'Language',
         name: 'language',
         type: 'string',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: 'English',
-        description: 'Language to use',
+        description: 'Language to use (required for generateAsync)',
       },
       {
         displayName: 'Template',
         name: 'template',
         type: 'string',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: 'general',
-        description: 'Template to use',
+        description: 'Template to use (required for generateAsync)',
       },
       {
         displayName: 'Include Table of Contents',
         name: 'include_table_of_contents',
         type: 'boolean',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: false,
-        description: 'Whether to include a table of contents',
+        description: 'Whether to include a table of contents (required for generateAsync)',
       },
       {
         displayName: 'Include Title Slide',
         name: 'include_title_slide',
         type: 'boolean',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: true,
-        description: 'Whether to include a title slide',
+        description: 'Whether to include a title slide (required for generateAsync)',
       },
       {
-        displayName: 'File (IDs from Upload)',
+        displayName: 'Files (IDs From Upload)',
         name: 'files',
         type: 'string',
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
-        default: null,
-        description: 'ID of file previously uploaded',
+        default: '',
+        description: 'ID of file previously uploaded (required for generateAsync)',
       },
       {
         displayName: 'Export As',
@@ -272,14 +265,13 @@ export class Presenton implements INodeType {
           { name: 'PPTX', value: 'pptx' },
           { name: 'PDF', value: 'pdf' },
         ],
-        required: false,
         displayOptions: {
           show: {
             operation: ['generateAsync'],
           },
         },
         default: 'pptx',
-        description: 'Output format',
+        description: 'Output format (required for generateAsync)',
       },
       {
         displayName: 'Binary Property',
@@ -292,7 +284,7 @@ export class Presenton implements INodeType {
           },
         },
         default: 'data',
-        description: 'Name of the binary property containing the file',
+        description: 'Name of the binary property containing the file (required for uploadFile)',
       },
       {
         displayName: 'Task ID',
@@ -305,7 +297,7 @@ export class Presenton implements INodeType {
           },
         },
         default: '',
-        description: 'The ID returned from generate-presentation-async to check status (single check only)',
+        description: 'The ID returned from generate-presentation-async to check status (single check only) (required for checkStatus)',
       },
     ],
     };

@@ -2,7 +2,7 @@ import { IExecuteFunctions, NodeApiError, JsonObject } from 'n8n-workflow';
 import { IDataObject, IRequestOptions } from 'n8n-workflow';
 
 export async function apiRequest(this: IExecuteFunctions, method: 'GET'|'POST'|'PUT'|'DELETE', endpoint: string, body?: IDataObject): Promise<any> {
-  const credentials = await this.getCredentials('PresentonApi') as { apiKey: string, baseUrl?: string };
+  const credentials = await this.getCredentials('presentonApi') as { apiKey: string, baseUrl?: string };
 
   const options: IRequestOptions = {
     method,
@@ -28,7 +28,7 @@ export async function apiRequest(this: IExecuteFunctions, method: 'GET'|'POST'|'
 
 
 export async function apiRequestFormData(this: IExecuteFunctions, endpoint: string, formData: IDataObject): Promise<any> {
-    const credentials = await this.getCredentials('PresentonApi') as { apiKey: string, baseUrl?: string };
+    const credentials = await this.getCredentials('presentonApi') as { apiKey: string, baseUrl?: string };
 
   const options: IRequestOptions = {
     method: 'POST',

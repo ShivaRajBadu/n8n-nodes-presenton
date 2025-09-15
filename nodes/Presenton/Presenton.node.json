@@ -6,12 +6,12 @@
 	"resources": {
 		"credentialDocumentation": [
 			{
-				"url": "https://presenton.ai/docs/api-reference"
+				"url": "https://docs.presenton.ai/api-reference"
 			}
 		],
 		"primaryDocumentation": [
 			{
-				"url": "https://presenton.ai/docs/api-reference"
+				"url": "https://docs.presenton.ai/api-reference"
 			}
 		]
 	}
