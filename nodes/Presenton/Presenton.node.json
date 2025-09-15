@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-presenton",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["AI Tools"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://presenton.ai/docs/api-reference"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://presenton.ai/docs/api-reference"
+			}
+		]
+	}
+}
