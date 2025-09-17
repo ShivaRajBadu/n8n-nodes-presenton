@@ -33,7 +33,6 @@ export class PresentonApi implements ICredentialType {
 		},
 	};
   test:ICredentialTestRequest = {
-   
     request: {
       method: 'GET',
       baseURL: '={{$credentials.baseUrl}}',
