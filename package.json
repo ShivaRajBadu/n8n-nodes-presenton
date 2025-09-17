@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-presenton",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "n8n node to create presentations using Presenton API",
   "keywords": [
     "n8n-community-node-package"
