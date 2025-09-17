@@ -11,10 +11,6 @@ import {
 
 import * as GenericFunctions from './GenericFunctions';
 
-
-
-
-
 export class Presenton implements INodeType {
     description: INodeTypeDescription ={
          displayName: 'Presenton',

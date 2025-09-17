@@ -1,9 +1,9 @@
-import { IAuthenticateGeneric, ICredentialType, INodeProperties } from 'n8n-workflow';
+import { IAuthenticateGeneric, ICredentialTestRequest, ICredentialType, INodeProperties } from 'n8n-workflow';
 
 export class PresentonApi implements ICredentialType {
   name = 'presentonApi';
   displayName = 'Presenton API';
-  documentationUrl = 'https://presenton.ai/docs/api-reference';
+  documentationUrl = 'https://docs.presenton.ai/using-presenton-api#authentication';
   properties: INodeProperties[] = [
     {
       displayName: 'API Key',
@@ -28,8 +28,19 @@ export class PresentonApi implements ICredentialType {
 		type: 'generic',
 		properties: {
 			headers: {
-				Authorization: 'Bearer {{$credentials.apiKey}}',
+				Authorization: '=Bearer {{$credentials.apiKey}}',
 			},
 		},
 	};
+  test:ICredentialTestRequest = {
+   
+    request: {
+      method: 'GET',
+      baseURL: '={{$credentials.baseUrl}}',
+      url: `/api/v1/auth/profile`,
+      headers:{
+        'Authorization': '=Bearer {{$credentials.apiKey}}',
+      }
+    },
+  };
 }
