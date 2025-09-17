@@ -48,19 +48,19 @@ export class Presenton implements INodeType {
             name: 'Generate Presentation (Async)',
             value: 'generateAsync',
             description: 'Initiate presentation generation asynchronously',
-            action: 'Initiate presentation generation',
+            action: 'Initiate presentation generation (Async)',
           },
           {
             name: 'Check Presentation Status',
             value: 'checkStatus',
             description: 'Poll or check until presentation is done',
-            action: 'Poll or check until presentation is done',
+            action: 'Poll or check until presentation is done (Check Status)',
           },
           {
             name: 'Upload File',
             value: 'uploadFile',
             description: 'Upload a file to Presenton to reference later',
-            action: 'Upload a file to presenton to reference later',
+            action: 'Upload a file to presenton to reference later (Upload File)',
           },
         ],
         default: 'generateAsync',
@@ -78,21 +78,6 @@ export class Presenton implements INodeType {
         },
         default: '',
         description: 'Main content to generate presentation from (required for generateAsync)',
-      },
-      {
-        displayName: 'Slides Markdown',
-        name: 'slides_markdown',
-        type: 'string',
-        typeOptions: {
-          multipleValues: true,
-        },
-        displayOptions: {
-          show: {
-            operation: ['generateAsync'],
-          },
-        },
-        default: [],
-        description: 'Optional list of slides in markdown format (required for generateAsync)',
       },
       {
         displayName: 'Instructions',
@@ -308,7 +293,6 @@ export class Presenton implements INodeType {
             try {
                 const operation = this.getNodeParameter('operation', i) as string;
                 if(operation === 'generateAsync'){
-                    // Basic validation examples
                     const noOfSlides = this.getNodeParameter('noOfSlides', i, 5) as number;
                     if (typeof noOfSlides !== 'number' || noOfSlides <= 0) {
                         throw new NodeOperationError(this.getNode(), 'Invalid number of slides', {
@@ -320,13 +304,12 @@ export class Presenton implements INodeType {
                     // Build base body
                     const body: any = {
                       content: this.getNodeParameter('content', i, '') as string ,
-                      slides_markdown: this.getNodeParameter('slides_markdown', i, []) as string[],
                       instructions: this.getNodeParameter('instructions', i, '') as string,
                       tone: this.getNodeParameter('tone', i, 'default') as string,
                       verbosity: this.getNodeParameter('verbosity', i, 'standard') as string,
                       web_search: this.getNodeParameter('web_search', i, false) as boolean,
                       image_type: this.getNodeParameter('image_type', i, 'stock') as string,
-                      theme: this.getNodeParameter('theme', i, '') as string,
+                      theme: this.getNodeParameter('theme', i, 'general') as string,
                       n_slides: noOfSlides,
                       language: this.getNodeParameter('language', i, 'English') as string,
                       template: this.getNodeParameter('template', i, 'general') as string,
