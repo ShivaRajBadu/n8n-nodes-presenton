@@ -4,13 +4,14 @@ export class PresentonApi implements ICredentialType {
   name = 'presentonApi';
   displayName = 'Presenton API';
   documentationUrl = 'https://docs.presenton.ai/using-presenton-api#authentication';
+
   properties: INodeProperties[] = [
     {
       displayName: 'API Key',
       name: 'apiKey',
       type: 'string',
       default: '',
-      typeOptions:{
+      typeOptions: {
         password: true,
       },
       description: 'Your API key for Presenton',
@@ -24,21 +25,20 @@ export class PresentonApi implements ICredentialType {
       required: false,
     },
   ];
+
   authenticate: IAuthenticateGeneric = {
-		type: 'generic',
-		properties: {
-			headers: {
-				Authorization: '=Bearer {{$credentials.apiKey}}',
-			},
-		},
-	};
-  test:ICredentialTestRequest = {
+    type: 'generic',
+    properties: {
+      headers: {
+        Authorization: '=Bearer {{$credentials.apiKey}}',
+      },
+    },
+  };
+
+  test: ICredentialTestRequest = {
     request: {
-      baseURL: '={{$credentials.baseUrl}}',
-      url: `/api/v1/auth/profile`,
-      headers:{
-        'Authorization': '=Bearer {{$credentials.apiKey}}',
-      }
+      method: 'GET',
+      url: '={{$credentials.baseUrl}}/api/v1/auth/profile',
     },
   };
 }
