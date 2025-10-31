@@ -1,5 +1,5 @@
 import { IExecuteFunctions, NodeApiError, JsonObject } from 'n8n-workflow';
-import { IDataObject, IHttpRequestOptions } from 'n8n-workflow';
+import { IDataObject, IHttpRequestOptions, IRequestOptions } from 'n8n-workflow';
 
 export async function apiRequest(
 	this: IExecuteFunctions,
@@ -43,18 +43,17 @@ export async function apiRequestFormData(
 		baseUrl?: string;
 	};
 
-	const options: IHttpRequestOptions = {
+	const options: IRequestOptions = {
 		method: 'POST',
 		url: `${credentials.baseUrl ?? 'https://api.presenton.ai'}${endpoint}`,
 		headers: {
 			Authorization: `Bearer ${credentials.apiKey}`,
 		},
-		json: true,
-		qs: formData,
+		formData,
 	};
 
 	try {
-		return await this.helpers.httpRequestWithAuthentication.call(this, 'presentonApi', options);
+		return await this.helpers.requestWithAuthentication.call(this, 'presentonApi', options);
 	} catch (error) {
 		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
