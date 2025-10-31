@@ -130,11 +130,66 @@ export class Presenton implements INodeType {
 				},
 				options: [
 					{
+						displayName: 'Enable Web Search',
+						name: 'web_search',
+						type: 'boolean',
+						default: false,
+						description: 'Whether to allow web search during generation',
+					},
+					{
+						displayName: 'Files (IDs From Upload)',
+						name: 'files',
+						type: 'string',
+
+						default: '',
+						description: 'ID of file previously uploaded (required for generateAsync)',
+					},
+					{
+						displayName: 'Image Type',
+						name: 'image_type',
+						type: 'options',
+						options: [
+							{ name: 'AI Generated', value: 'ai-generated' },
+							{ name: 'Stock', value: 'stock' },
+						],
+						default: 'stock',
+						description: 'Image type to use',
+					},
+					{
+						displayName: 'Include Table of Contents',
+						name: 'include_table_of_contents',
+						type: 'boolean',
+						default: false,
+						description: 'Whether to include a table of contents',
+					},
+					{
+						displayName: 'Include Title Slide',
+						name: 'include_title_slide',
+						type: 'boolean',
+						default: true,
+						description: 'Whether to include a title slide',
+					},
+					{
 						displayName: 'Instructions',
 						name: 'instructions',
 						type: 'string',
-						default: null,
+						default: '',
 						description: 'Additional instructions',
+					},
+					{
+						displayName: 'Language',
+						name: 'language',
+						type: 'string',
+						default: 'English',
+						description: 'Language to use',
+					},
+
+					{
+						displayName: 'Theme',
+						name: 'theme',
+						type: 'string',
+						default: '',
+						description: 'Theme to use',
 					},
 					{
 						displayName: 'Tone',
@@ -163,60 +218,10 @@ export class Presenton implements INodeType {
 						default: 'standard',
 						description: 'Verbosity level',
 					},
-					{
-						displayName: 'Enable Web Search',
-						name: 'web_search',
-						type: 'boolean',
-						default: false,
-						description: 'Whether to allow web search during generation',
-					},
-					{
-						displayName: 'Image Type',
-						name: 'image_type',
-						type: 'options',
-						options: [
-							{ name: 'AI Generated', value: 'ai-generated' },
-							{ name: 'Stock', value: 'stock' },
-						],
-						default: 'stock',
-						description: 'Image type to use',
-					},
-					{
-						displayName: 'Language',
-						name: 'language',
-						type: 'string',
-						default: 'English',
-						description: 'Language to use',
-					},
-					{
-						displayName: 'Theme',
-						name: 'theme',
-						type: 'string',
-						default: null,
-						description: 'Theme to use',
-					},
-					{
-						displayName: 'Include Table of Contents',
-						name: 'include_table_of_contents',
-						type: 'boolean',
-						default: false,
-						description: 'Whether to include a table of contents',
-					},
-					{
-						displayName: 'Include Title Slide',
-						name: 'include_title_slide',
-						type: 'boolean',
-						default: true,
-						description: 'Whether to include a title slide',
-					},
-					{
-						displayName: 'Files (IDs From Upload)',
-						name: 'files',
-						type: 'string',
 
-						default: null,
-						description: 'ID of file previously uploaded (required for generateAsync)',
-					},
+
+
+
 
 				],
 			},
